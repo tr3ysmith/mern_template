@@ -14,7 +14,6 @@
     ],
     "delay": "100"
   },
-
   "author": "Trey Smith",
   "license": "MIT",
   "devDependencies": {
