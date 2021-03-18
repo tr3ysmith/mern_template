@@ -1,3 +1,4 @@
+import { MuiThemeProvider } from "@material-ui/core";
 import AppLayout from "./components/layout/AppLayout";
 import { theme } from "./theme";
 

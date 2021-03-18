@@ -13,7 +13,7 @@ const initialState = {
 };
 
 
-export default function(state = initialState, action) {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
 
         case NEW_ALERT:
@@ -50,3 +50,6 @@ export default function(state = initialState, action) {
     }//end switch
     
 }//end ()
+
+
+export default reducer;
