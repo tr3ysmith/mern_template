@@ -21,7 +21,9 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const Loading = (props) => {
+
+
+const Loading = (props: {loading: boolean}) => {
 
     const classes = useStyles();
 
@@ -34,7 +36,7 @@ const Loading = (props) => {
     );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
     return {
         loading: state.general.loading
     }

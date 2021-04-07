@@ -1,4 +1,10 @@
-import { NEW_ALERT, OPEN_DIALOG, CLOSE_DIALOG, SET_LOADING } from "../types";
+import { 
+    GeneralActionTypes,
+    NEW_ALERT, 
+    OPEN_DIALOG, 
+    CLOSE_DIALOG, 
+    SET_LOADING 
+} from "./types";
 
 const initialState = {
     loading: false,
@@ -8,12 +14,13 @@ const initialState = {
         title: '',
         message: '',
         confirmation: false,
-        dispatch: null
+        dispatch: null,
+        confirmAction: null,
+        buttonText: null
     }
 };
 
-
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: GeneralActionTypes) => {
     switch (action.type) {
 
         case NEW_ALERT:
@@ -27,7 +34,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 dialog: {
-                    open: true,
+                    show: true,
                     ...action.payload
                 }
             }
@@ -42,7 +49,7 @@ const reducer = (state = initialState, action) => {
         case SET_LOADING:
             return {
                 ...state,
-                loading: action.value,
+                loading: action.is_loading
             }
 
         default:

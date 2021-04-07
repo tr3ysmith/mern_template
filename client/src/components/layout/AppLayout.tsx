@@ -3,7 +3,7 @@ import Alerts from './Alerts';
 import GeneralDialog from './GeneralDialog';
 import Loading from './Loading';
 
-function AppLayout(props) {
+function AppLayout(props: any) {
 
         return(
             <div>

@@ -11,8 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Grid, Typography } from '@material-ui/core';
 
 // Reduz
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { amber } from '@material-ui/core/colors';
 
 import WarningIcon from '@material-ui/icons/Warning';
@@ -26,7 +25,6 @@ const variantIcon = {
     error: ErrorIcon,
     info: InfoIcon,
 };
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -53,23 +51,58 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const GeneralDialog = (props) => {
+
+
+
+
+
+
+interface RootState {
+    general: {
+        dialog: {
+            open: boolean,
+            title?: string,
+            message: string,
+            actionMessage?: string,
+            variant: keyof typeof variantIcon
+            confirmation?: boolean,
+            dispatch?: any,
+            confirmMethod?: () => void,
+            buttonText?: string
+        }
+    }
+}
+
+const mapState = (state: RootState) => ({
+    dialog: state.general.dialog
+})
+
+const mapDispatch = {
+    closeDialog: () => ({ type: 'CLOSE_DIALOG' }),
+    dispatch: (dispatch: any) => (dispatch)
+}
+
+const connector = connect(mapState, mapDispatch);
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+
+type Props = PropsFromRedux & {
+}
+
+
+
+
+
+const GeneralDialog = (props: Props) => {
 
     const classes = useStyles();
     
-    const handleClose = () => {
-        props.closeWindow();
-    }
-
     const handleSubmit = () => {
-        if(props.dialog.dispatch) {
-            props.handleSubmit(props.dialog.dispatch);
-        } else if(props.dialog.confirmMethod){
+        if(props.dialog.dispatch)
+            props.dispatch(props.dialog.dispatch);
+        if(props.dialog.confirmMethod)
             props.dialog.confirmMethod();
-            props.closeWindow();
-        } else {
-            props.closeWindow(); 
-        }
+        props.closeDialog();
     }
 
     const getTitle = () => {
@@ -99,7 +132,7 @@ const GeneralDialog = (props) => {
             maxWidth="md" 
             fullWidth
             open={props.dialog.open} 
-            onClose={handleClose} 
+            onClose={props.closeDialog} 
             aria-labelledby="form-dialog-title"
         >
             { getTitle() }
@@ -112,7 +145,7 @@ const GeneralDialog = (props) => {
             </DialogContent>
             { props.dialog.confirmation ? (
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={props.closeDialog} color="primary">
                         Cancel
                     </Button>
                     <Button onClick={handleSubmit} color="primary">
@@ -121,7 +154,7 @@ const GeneralDialog = (props) => {
                 </DialogActions>
             ) : (
                 <DialogActions>
-                    <Button onClick={handleSubmit} color="primary">
+                    <Button onClick={props.closeDialog} color="primary">
                         Close
                     </Button>
                 </DialogActions>
@@ -130,24 +163,7 @@ const GeneralDialog = (props) => {
     );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        dialog: state.general.dialog
-    }
-}
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        ...bindActionCreators({
-        }, dispatch),
-            closeWindow: () => { 
-                dispatch({ type: 'CLOSE_DIALOG' });
-            },
-            handleSubmit: (dispatchObj) => {
-                dispatch({ type: 'CLOSE_DIALOG' });
-                dispatch(dispatchObj);
-            }
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(GeneralDialog);
+
+export default connector(GeneralDialog);
