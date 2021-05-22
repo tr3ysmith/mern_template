@@ -5,7 +5,10 @@ Template is pre-setup with Material-UI and stripped of most things from create-r
 
 ---
 ## Getting Started:
+note: replace <your-new-app-name> with the actual name of your new application
 ~~~~
+> git clone https://github.com/tr3ysmith/mern_template.git <your-new-app-name>
+> git remote rm origin
 > yarn
 > cd client
 > yarn install
@@ -13,6 +16,8 @@ Template is pre-setup with Material-UI and stripped of most things from create-r
 > yarn run dev
 ~~~~
 This will install all dependencies in the main folder (server-side, and the client folder) and then running dev script will start react-scripts and the server with a proxy. The server runs with nodemon, but filtered only for the server folder (excluding client) and the react-scripts has hotreload already setup. So everything should properly restart as needed upon changes.
+
+Be sure to add a new remote repository if you plan to push your project up to Cloud Source Control like Github
 
 ### Main Libraries:
 
